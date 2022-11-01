@@ -126,8 +126,8 @@ class gui(tk.Tk):
         # GRHbci
         user = {
             "license": "",
-            "client_id": "xAciQLFGunJqagvVY0rrbHHaNyWj28x0IRbZYNit",
-            "client_secret": "1g1PyxYkpDXq3aGlfDcOJSr3tRAKUYoAHm5TrvMaFTQldPyTCfYmU43YExpbMMt0C9Mh4IozgFXvgikUGxjkdVEjsXCjlXd9NaQr02eJmjKGhwI4c0DVScPnq21A8pJs",
+            "client_id": "your Client Id",
+            "client_secret": "your Client Secret",
             "debit": 100
         }
 
