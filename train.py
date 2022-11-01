@@ -220,8 +220,8 @@ LIVE
 """
 user = {
     "license" : "",
-    "client_id" : "Z9EmQxAjGYgfvKhHEHbAARpbLtA6niMqIOAZsVHW",
-    "client_secret" : "tenMQM18zpb54kjv0BxrxF7Id7ZqIXFKgdXoHsA1BLaJJVNwmCPoeGzdZISq6Hn0EVYbJqvNevkGCgqz9NX7r8tqxcAoCpg1RPqCo09DWAyULEj7sx0LsDEBLnptbJvp",
+    "client_id" : "your client id",
+    "client_secret" : "your client secret",
     "debit" : 100
 }
 
@@ -233,90 +233,3 @@ number_of_train = 1
 
 # Init Train
 t=Train()
-# Do prepare steps
-# t.do_prepare_steps()
-#
-# # subscribe sys stream to receive Training Event
-# t.subscribe_data(['sys'])
-#
-# # load existed profile or create a new profile
-# t.load_profile(profile_name)
-# # while True:
-# #     t.live(profile_name, "50", "1", "W")
-#
-# profile_name = 'TEST'
-# c = Cortex(user, debug_mode=False)
-# c.bind(new_com_data=t.on_new_data)
-# c.do_prepare_steps()
-# c.sub_request(['sys'])
-# stream = ['com']
-# profiles = c.query_profile()
-# if profile_name not in profiles:
-#     status = 'create'
-#     c.setup_profile(profile_name, status)
-#
-#     status = 'load'
-#     c.setup_profile(profile_name, status)
-#
-# def temp_thread():
-#     stream = ['com']
-#     while True:
-#         c.sub_request_GRH(stream, "50", "1", "W")
-#
-# send_thread = threading.Thread(target=temp_thread(), args=(stream), daemon=True)
-# send_thread.start()
-
-# class perpetualTimer():
-#
-#    def __init__(self,t,hFunction):
-#       self.t=t
-#       self.hFunction = hFunction
-#       self.thread = Timer(self.t,self.handle_function)
-#
-#    def handle_function(self):
-#       self.hFunction()
-#       self.thread = Timer(self.t,self.handle_function)
-#       self.thread.start()
-#
-#    def start(self):
-#       self.thread.start()
-#
-#    def cancel(self):
-#       self.thread.cancel()
-#
-
-# def temp():
-#     t.live(profile_name, "50", "1", "W")
-#     print("hi")
-#
-# temp()
-# tt = perpetualTimer(.5,temp())
-#
-# tt.start()
-# # #
-# send_thread = threading.Thread(target=temp, args=(), daemon=True)
-# send_thread.start()
-#
-
-# Training neutral action
-# training_action = 'neutral'
-# t.train_mc(profile_name, training_action, number_of_train)
-#
-# # # add active action
-#
-# # Training push action
-# training_action = 'push'
-# t.train_mc(profile_name, training_action, number_of_train)
-
-# # unload profile
-# t.unload_profile(profile_name)
-
-# start live mode with profile
-# t.live(profile_name)
-# -----------------------------------------------------------
-
-
-
-
-
-
