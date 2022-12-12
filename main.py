@@ -23,6 +23,8 @@ class gui(tk.Tk):
 
 
         global emotivtext
+        global flag
+        flag = tk.StringVar()
         emotivtext = tk.StringVar()
         emotivtext.set("Current Emotiv Command:")
         emotiv_label = tk.Label(self, textvariable=emotivtext, font=cooper)
@@ -108,6 +110,9 @@ class gui(tk.Tk):
                                                                         left_key_var.get(), right_key_var.get()]))
         send_button.grid(row=5, column=0, pady=20, columnspan=4)
 
+        pause_button = TkinterCustomButton(text="Pause", fg_color="red", corner_radius=10,
+                                          command=lambda: stop_thread())
+        pause_button.grid(row=5, column=1, pady=20, columnspan=4)
 
         #handling resize
         self.grid_columnconfigure(0, weight=1)
@@ -126,14 +131,22 @@ class gui(tk.Tk):
         # GRHbci
         user = {
             "license": "",
-            "client_id": "your Client Id",
-            "client_secret": "your Client Secret",
+            "client_id": "xAciQLFGunJqagvVY0rrbHHaNyWj28x0IRbZYNit",
+            "client_secret": "1g1PyxYkpDXq3aGlfDcOJSr3tRAKUYoAHm5TrvMaFTQldPyTCfYmU43YExpbMMt0C9Mh4IozgFXvgikUGxjkdVEjsXCjlXd9NaQr02eJmjKGhwI4c0DVScPnq21A8pJs",
             "debit": 100
         }
+        # # KAdams
+        # user = {
+        #     "license": "",
+        #     "client_id": "dHuZLhxmpDnzKeB1ISs8MMxlZeBqnAsxU8g3juuV	",
+        #     "client_secret": "secret: e4ix6KF73LOkEnogA5Fm3fpA8rVRPHlhvauvHGVfVQVIcgEhKjaAYsTVvBFwEQrMIRZZhDvEpRi4Z8P7y2CSroCwqW9yih3YhzvWVcy2HOwUQhRZuq8zsRyXp7F4rXQm",
+        #     "debit": 100
+        # }
 
 
 
         def temp_thread(profile, threshold, dly, key):
+
             # try:
 
             try:
@@ -159,8 +172,14 @@ class gui(tk.Tk):
                 emotivtext.set("No headset connected!")
 
         def start_thread(profile, threshold, dly, key):
+            global flag
+            flag.set('go')
             send_thread = threading.Thread(target=temp_thread, args=[profile, threshold, dly, key], daemon=True)
             send_thread.start()
+
+        def stop_thread():
+            global flag
+            flag.set('stop')
 
 
 kb = Controller()
@@ -507,7 +526,7 @@ class Cortex(Dispatcher):
                 print(new_data)
 
     def sub_request_GRH(self, stream, threshold, delay, key):
-        global emotivtext
+        global emotivtext, flag
 
         print('subscribe request --------------------------------')
         sub_request_json = {
@@ -564,7 +583,7 @@ class Cortex(Dispatcher):
             self.emit('new_com_data', data=com_data)
             emotivtext.set(f"current Emotiv Command:\n {com_data['action']}, {com_data['power']}")
             if com_data['action'] == 'push' and 100 * float(com_data['power']) >= int(threshold) and (
-                    float(com_data['time']) - temp_time) >= delay:
+                    float(com_data['time']) - temp_time) >= delay and flag.get() != 'stop':
                 if key[0] == '':
                     print("please assign a corresponding keyboard key to this command")
                 elif key[0] == 'space':
@@ -583,7 +602,7 @@ class Cortex(Dispatcher):
                 json.dump(config, open("time_config.json", "w"), indent=4, sort_keys=True)
 
             elif com_data['action'] == 'pull' and 100 * float(com_data['power']) >= int(threshold) and (
-                    float(com_data['time']) - temp_time) >= delay:
+                    float(com_data['time']) - temp_time) >= delay and flag.get() != 'stop':
                 if key[1] == '':
                     print("please assign a corresponding keyboard key to this command")
                 elif key[1] == 'space':
@@ -603,7 +622,7 @@ class Cortex(Dispatcher):
 
 
             elif com_data['action'] == 'lift' and 100 * float(com_data['power']) >= int(threshold) and (
-                    float(com_data['time']) - temp_time) >= delay:
+                    float(com_data['time']) - temp_time) >= delay and flag.get() != 'stop':
                 if key[2] == '':
                     print("please assign a corresponding keyboard key to this command")
                 elif key[2] == 'space':
@@ -621,7 +640,7 @@ class Cortex(Dispatcher):
                 config["time"] = float(com_data['time'])
                 json.dump(config, open("time_config.json", "w"), indent=4, sort_keys=True)
             elif com_data['action'] == 'drop' and 100 * float(com_data['power']) >= int(threshold) and (
-                    float(com_data['time']) - temp_time) >= delay:
+                    float(com_data['time']) - temp_time) >= delay and flag.get() != 'stop':
                 if key[3] == '':
                     print("please assign a corresponding keyboard key to this command")
                 elif key[3] == 'space':
@@ -637,7 +656,7 @@ class Cortex(Dispatcher):
                 else:
                     press((key[3]))
             elif com_data['action'] == 'left' and 100 * float(com_data['power']) >= int(threshold) and (
-                    float(com_data['time']) - temp_time) >= delay:
+                    float(com_data['time']) - temp_time) >= delay and flag.get() != 'stop':
                 if key[4] == '':
                     print("please assign a corresponding keyboard key to this command")
                 elif key[4] == 'space':
@@ -654,7 +673,7 @@ class Cortex(Dispatcher):
                     press((key[4]))
 
             elif com_data['action'] == 'right' and 100 * float(com_data['power']) >= int(threshold) and (
-                    float(com_data['time']) - temp_time) >= delay:
+                    float(com_data['time']) - temp_time) >= delay and flag.get() != 'stop':
                 if key[5] == '':
                     print("please assign a corresponding keyboard key to this command")
                 elif key[5] == 'space':
@@ -922,7 +941,7 @@ class Cortex(Dispatcher):
         # "version": export_version,
         if export_format == 'CSV':
             export_record_request['params']['version'] = export_version
-
+        
         if self.debug:
             print('export record request \n',
                   json.dumps(export_record_request, indent=4))
